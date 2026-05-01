@@ -46,11 +46,38 @@ export default function RegisterPage() {
           </p>
         )}
         <form onSubmit={handleSubmit} className="space-y-4">
-          <input name="nom" placeholder="Nom" required className="w-full p-3 border rounded-lg" />
-          <input name="prenom" placeholder="Prénom" required className="w-full p-3 border rounded-lg" />
-          <input name="email" type="email" placeholder="Email" required className="w-full p-3 border rounded-lg" />
-          <input name="password" type="password" placeholder="Mot de passe" required minLength={6} className="w-full p-3 border rounded-lg" />
-          <button type="submit" disabled={loading} className="w-full bg-teal-600 text-white py-3 rounded-lg hover:bg-teal-700 transition disabled:opacity-50">
+          <input
+            name="nom"
+            placeholder="Nom"
+            required
+            className="w-full p-3 border rounded-lg"
+          />
+          <input
+            name="prenom"
+            placeholder="Prénom"
+            required
+            className="w-full p-3 border rounded-lg"
+          />
+          <input
+            name="email"
+            type="email"
+            placeholder="Email"
+            required
+            className="w-full p-3 border rounded-lg"
+          />
+          <input
+            name="password"
+            type="password"
+            placeholder="Mot de passe"
+            required
+            minLength={6}
+            className="w-full p-3 border rounded-lg"
+          />
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-teal-600 text-white py-3 rounded-lg hover:bg-teal-700 transition disabled:opacity-50"
+          >
             {loading ? "Inscription..." : "Créer mon compte"}
           </button>
         </form>
