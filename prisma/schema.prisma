@@ -6,7 +6,6 @@ generator client {
 // 2. Connexion à la base de données
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 // 3. Modèle Utilisateur (Architecte, Gardien, etc.)

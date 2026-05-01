@@ -1,5 +1,16 @@
-import SessionWrapper from "@/components/SessionWrapper";
-// ... tes autres imports existants
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import "./globals.css";
+import Header from "@/components/Header";
+import Sidebar from "@/components/Sidebar";
+import SessionWrapper from "@/components/SessionWrapper"; 
+
+const inter = Inter({ subsets: ["latin"] });
+
+export const metadata: Metadata = {
+  title: "SmartTech Central",
+  description: "Assistant de santé communautaire avec IA",
+};
 
 export default function RootLayout({
   children,
@@ -9,7 +20,8 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body className={inter.className}>
-        <SessionWrapper>
+        {/* On enveloppe TOUT le contenu ici */}
+        <SessionWrapper> 
           <div className="flex flex-col min-h-screen">
             <Header />
             <div className="flex flex-1">
