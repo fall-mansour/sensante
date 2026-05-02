@@ -63,7 +63,7 @@ export default function ConsultationForm({
     });
     if (res.ok) {
       setSymptomes([]);
-      e.currentTarget.reset();
+      e.currentTarget?.reset();
       onSuccess();
     }
     setLoading(false);
