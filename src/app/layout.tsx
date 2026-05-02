@@ -8,7 +8,7 @@ import SessionWrapper from "@/components/SessionWrapper";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "SmartTech Central",
+  title: "Sensante",
   description: "Assistant de santé communautaire avec IA",
 };
 
