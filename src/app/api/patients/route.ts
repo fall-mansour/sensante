@@ -1,5 +1,5 @@
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/authen";
+import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
@@ -11,10 +11,7 @@ export async function GET() {
 
     // 2. Blocage si l'utilisateur n'est pas connecté
     if (!session) {
-      return NextResponse.json(
-        { error: "Non autorisé" },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
     }
 
     // 3. Si authentifié, récupération des données
@@ -22,11 +19,10 @@ export async function GET() {
       orderBy: { createdAt: "desc" },
     });
     return NextResponse.json(patients);
-
   } catch (error) {
     return NextResponse.json(
       { error: "Erreur lors de la récupération" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -39,10 +35,7 @@ export async function POST(request: Request) {
 
     // 2. Blocage si l'utilisateur n'est pas connecté
     if (!session) {
-      return NextResponse.json(
-        { error: "Non autorisé" },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
     }
 
     // 3. Si authentifié, création du patient
@@ -59,11 +52,10 @@ export async function POST(request: Request) {
       },
     });
     return NextResponse.json(patient, { status: 201 });
-
   } catch (error) {
     return NextResponse.json(
       { error: "Erreur lors de la création" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
