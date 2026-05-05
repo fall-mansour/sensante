@@ -67,11 +67,10 @@ export default function ConsultationsPage() {
                   </p>
                 </div>
                 <span
-                  className={`text-xs px-3 py-1 rounded-full ${
-                    c.statut === "termine"
+                  className={`text-xs px-3 py-1 rounded-full ${c.statut === "termine"
                       ? "bg-green-100 text-green-700"
                       : "bg-yellow-100 text-yellow-700"
-                  }`}
+                    }`}
                 >
                   {c.statut === "termine" ? "Terminé" : "En attente"}
                 </span>
