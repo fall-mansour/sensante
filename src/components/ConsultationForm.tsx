@@ -54,10 +54,10 @@ export default function ConsultationForm({
     }
 
     const form = e.currentTarget;
-    const formData = new FormData(form);
+    const formData = new FormData(form); // Première déclaration (correcte)
 
     setLoading(true);
-    const formData = new FormData(e.currentTarget);
+    // La ligne en double qui causait l'erreur a été supprimée ici
     const res = await fetch("/api/consultations", {
       method: "POST",
       headers: {
@@ -71,7 +71,7 @@ export default function ConsultationForm({
     });
     if (res.ok) {
       setSymptomes([]);
-      e.currentTarget.reset();
+      form.reset();
       onSuccess();
     }
     setLoading(false);
