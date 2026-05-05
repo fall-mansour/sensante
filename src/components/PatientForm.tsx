@@ -31,7 +31,7 @@ export default function PatientForm({
     });
 
     if (res.ok) {
-      e.currentTarget.reset();
+      e.currentTarget?.reset();
       onSuccess();
     }
     setLoading(false);

@@ -57,31 +57,24 @@ export default function ConsultationForm({
     const formData = new FormData(form);
 
     setLoading(true);
-
-    try {
-      const res = await fetch("/api/consultations", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          patientId: Number(formData.get("patientId")),
-          symptomes: symptomes,
-          notes: formData.get("notes"),
-        }),
-      });
-
-      if (res.ok) {
-        setSymptomes([]);
-
-        form.reset();
-        onSuccess();
-      }
-    } catch (error) {
-      console.error("Erreur lors de l'enregistrement:", error);
-    } finally {
-      setLoading(false);
+    const formData = new FormData(e.currentTarget);
+    const res = await fetch("/api/consultations", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        patientId: Number(formData.get("patientId")),
+        symptomes: symptomes,
+        notes: formData.get("notes"),
+      }),
+    });
+    if (res.ok) {
+      setSymptomes([]);
+      e.currentTarget.reset();
+      onSuccess();
     }
+    setLoading(false);
   }
 
   return (
