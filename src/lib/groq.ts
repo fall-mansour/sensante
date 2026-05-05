@@ -55,7 +55,7 @@ export async function analyserSymptomes(
         { role: "system", content: SYSTEM_PROMPT },
         { role: "user", content: userMessage },
       ],
-      model: "llama -3.3-70b-versatile",
+      model: "llama-3.3-70b-versatile",
       temperature: 0.3,
       max_tokens: 500,
     });
