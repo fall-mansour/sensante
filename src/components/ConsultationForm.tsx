@@ -10,11 +10,18 @@ interface Patient {
 }
 
 const SYMPTOMES_DISPONIBLES = [
-  "Fièvre", "Toux", "Maux de tête",
-  "Fatigue", "Diarrhée", "Vomissements",
-  "Douleur abdominale", "Éruption cutanée",
-  "Frissons", "Douleur thoracique",
-  "Essoufflement", "Vertiges",
+  "Fièvre",
+  "Toux",
+  "Maux de tête",
+  "Fatigue",
+  "Diarrhée",
+  "Vomissements",
+  "Douleur abdominale",
+  "Éruption cutanée",
+  "Frissons",
+  "Douleur thoracique",
+  "Essoufflement",
+  "Vertiges",
 ];
 
 export default function ConsultationForm({
@@ -34,39 +41,47 @@ export default function ConsultationForm({
 
   function toggleSymptome(s: string) {
     setSymptomes((prev) =>
-      prev.includes(s)
-        ? prev.filter((x) => x !== s)
-        : [...prev, s]
+      prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s],
     );
   }
 
-  async function handleSubmit(
-    e: React.FormEvent<HTMLFormElement>
-  ) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
     if (symptomes.length === 0) {
       alert("Cochez au moins un symptôme.");
       return;
     }
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
     setLoading(true);
-    const formData = new FormData(e.currentTarget);
-    const res = await fetch("/api/consultations", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        patientId: Number(formData.get("patientId")),
-        symptomes: symptomes,
-        notes: formData.get("notes"),
-      }),
-    });
-    if (res.ok) {
-      setSymptomes([]);
-      e.currentTarget.reset();
-      onSuccess();
+
+    try {
+      const res = await fetch("/api/consultations", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          patientId: Number(formData.get("patientId")),
+          symptomes: symptomes,
+          notes: formData.get("notes"),
+        }),
+      });
+
+      if (res.ok) {
+        setSymptomes([]);
+
+        form.reset();
+        onSuccess();
+      }
+    } catch (error) {
+      console.error("Erreur lors de l'enregistrement:", error);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   }
 
   return (
@@ -74,9 +89,7 @@ export default function ConsultationForm({
       onSubmit={handleSubmit}
       className="bg-white rounded-lg shadow-md p-6 space-y-6"
     >
-      <h3 className="text-lg font-bold text-gray-800">
-        Nouvelle consultation
-      </h3>
+      <h3 className="text-lg font-bold text-gray-800">Nouvelle consultation</h3>
 
       {/* Section 1 : Patient */}
       <div>
