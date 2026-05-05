@@ -63,7 +63,9 @@ export async function analyserSymptomes(
   const response = completion.choices[0]?.message?.content || "{}";
 
   try {
-    return JSON.parse(response);
+    const cleaned = response.replace(/```json/g, "").replace(/```/g, "").trim();
+
+    return JSON.parse(cleaned);
 
   } catch {
     return {
