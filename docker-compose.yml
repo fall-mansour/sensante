@@ -4,24 +4,29 @@ services:
     restart: always
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_PASSWORD: postgres # Assurez-vous que cela correspond à votre DATABASE_URL
       POSTGRES_DB: sensante
     ports:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: ["CMD-SHELL", "pg_isready -U postgres -d sensante"]
       interval: 5s
       timeout: 5s
       retries: 5
 
   app:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - GROQ_API_KEY=${GROQ_API_KEY}
     restart: always
     ports:
       - "3000:3000"
     environment:
+      # Notez l'utilisation de 'db' (le nom du service) au lieu de localhost
       DATABASE_URL: "postgresql://postgres:postgres@db:5432/sensante?schema=public"
       NEXTAUTH_SECRET: "${NEXTAUTH_SECRET}"
       NEXTAUTH_URL: "http://localhost:3000"
