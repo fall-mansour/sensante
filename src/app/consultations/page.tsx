@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import ConsultationForm from "@/components/ConsultationForm";
 import DiagnosticIA from "@/components/DiagnosticIA";
 
@@ -23,16 +23,25 @@ export default function ConsultationsPage() {
   const [consultations, setConsultations] = useState<Consultation[]>([]);
   const [loading, setLoading] = useState(true);
 
-  async function charger() {
-    const res = await fetch("/api/consultations");
-    const data = await res.json();
-    setConsultations(data);
-    setLoading(false);
-  }
+  // Utilisation de useCallback pour stabiliser la fonction
+  const charger = useCallback(async () => {
+    try {
+      setLoading(true);
+      const res = await fetch("/api/consultations");
+      if (!res.ok) throw new Error("Erreur réseau");
+      const data = await res.json();
+      setConsultations(data);
+    } catch (error) {
+      console.error("Erreur lors du chargement :", error);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   useEffect(() => {
+    // Appel de la fonction
     charger();
-  }, []);
+  }, [charger]);
 
   return (
     <div>
@@ -66,10 +75,11 @@ export default function ConsultationsPage() {
                   </p>
                 </div>
                 <span
-                  className={`text-xs px-3 py-1 rounded-full ${c.statut === "termine"
+                  className={`text-xs px-3 py-1 rounded-full ${
+                    c.statut === "termine"
                       ? "bg-green-100 text-green-700"
                       : "bg-yellow-100 text-yellow-700"
-                    }`}
+                  }`}
                 >
                   {c.statut === "termine" ? "Terminé" : "En attente"}
                 </span>
@@ -90,7 +100,6 @@ export default function ConsultationsPage() {
                 <p className="text-sm text-gray-600 mt-3 italic">{c.notes}</p>
               )}
 
-              {/* Intégration du composant DiagnosticIA */}
               <div className="mt-4 pt-4 border-t border-gray-100">
                 <DiagnosticIA
                   consultationId={c.id}

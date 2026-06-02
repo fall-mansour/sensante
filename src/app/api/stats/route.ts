@@ -3,6 +3,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { NextResponse } from "next/server";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   const session = await getServerSession(authOptions);
   if (!session) {
@@ -39,7 +41,20 @@ export async function GET() {
     select: { date: true },
   });
 
-  const moisNoms = ["Jan","Fév","Mar","Avr","Mai","Jun","Jul","Aoû","Sep","Oct","Nov","Déc"];
+  const moisNoms = [
+    "Jan",
+    "Fév",
+    "Mar",
+    "Avr",
+    "Mai",
+    "Jun",
+    "Jul",
+    "Aoû",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Déc",
+  ];
   const parMois: Record<string, number> = {};
   consultationsRecentes.forEach((c) => {
     const d = new Date(c.date);
@@ -56,7 +71,12 @@ export async function GET() {
   });
 
   return NextResponse.json({
-    kpi: { totalPatients, totalConsultations, consultationsTerminees, alertesUrgentes },
+    kpi: {
+      totalPatients,
+      totalConsultations,
+      consultationsTerminees,
+      alertesUrgentes,
+    },
     parRegion: parRegion.map((r) => ({ region: r.region, total: r._count.id })),
     parMois: Object.entries(parMois).map(([mois, total]) => ({ mois, total })),
     dernieresAlertes: dernieresAlertes.map((a) => ({

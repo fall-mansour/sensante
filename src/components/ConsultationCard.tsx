@@ -6,18 +6,20 @@ interface ConsultationCardProps {
 }
 
 export default function ConsultationCard({
-  patient, date, symptomes, statut
+  patient,
+  date,
+  symptomes,
+  statut,
 }: ConsultationCardProps) {
-  const statutColor = statut === "termine"
-    ? "bg-green-100 text-green-700"
-    : "bg-yellow-100 text-yellow-700";
+  const statutColor =
+    statut === "termine"
+      ? "bg-green-100 text-green-700"
+      : "bg-yellow-100 text-yellow-700";
 
   return (
     <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-orange-400">
       <div className="flex justify-between items-center">
-        <h3 className="font-bold text-gray-800">
-          {patient}
-        </h3>
+        <h3 className="font-bold text-gray-800">{patient}</h3>
         <span className={`text-xs px-2 py-1 rounded-full ${statutColor}`}>
           {statut === "termine" ? "Terminé" : "En attente"}
         </span>
